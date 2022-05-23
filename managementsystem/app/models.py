@@ -12,20 +12,20 @@ class Employee(models.Model):
     address = models.CharField(max_length=100)
 
 
+class Room(models.Model):
+    name = models.CharField(max_length=50, blank=False, null=False)
+    description = models.TextField()
+    floor = models.IntegerField()
+
+
 class Patient(models.Model):
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
     firstName = models.CharField(max_length=50, blank=False, null=False)
     lastName = models.CharField(max_length=50, blank=False, null=False)
-    description = models.TextField()
+    description = models.TextField(null=True, blank=True)
     age = models.IntegerField()
     birthday = models.DateField()
     illness = models.CharField(max_length=100)
     dateAdmitted = models.DateField(null=False)
     dateDischarge = models.DateField(null=True, default=None)
     isDischarged = models.BooleanField(default=False)
-
-
-class Room(models.Model):
-    name = models.CharField(max_length=50, blank=False, null=False)
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
-    description = models.TextField()
-    floor = models.IntegerField()

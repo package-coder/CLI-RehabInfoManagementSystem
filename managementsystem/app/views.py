@@ -18,7 +18,7 @@ from .models import (
 
 
 # Create your views here.
-class UserList(generics.ListAPIView):
+class UserList(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
@@ -28,7 +28,7 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserSerializer
 
 
-class EmployeeList(generics.ListAPIView):
+class EmployeeList(generics.ListCreateAPIView):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
 
@@ -38,7 +38,7 @@ class EmployeeDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = EmployeeSerializer
 
 
-class PatientList(generics.ListAPIView):
+class PatientList(generics.ListCreateAPIView):
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
 
@@ -48,7 +48,7 @@ class PatientDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PatientSerializer
 
 
-class RoomList(generics.ListAPIView):
+class RoomList(generics.ListCreateAPIView):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
 

@@ -1,3 +1,4 @@
+from datetime import date
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import (
@@ -25,9 +26,24 @@ class EmployeeSerializer(serializers.ModelSerializer):
 
 
 class PatientSerializer(serializers.ModelSerializer):
+    age = serializers.IntegerField(read_only=True)
+    dateAdmitted = serializers.DateField(required=True, initial=date.today)
+    birthdate = serializers.DateField(required=False)
+
     class Meta:
         model = Patient
         fields = '__all__'
+
+
+    def create(self, validated_data):
+        print(validated_data)
+
+        today = date.today()
+        birthdate = validated_data.get('birthdate', today)
+        age = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
+        validated_data['age'] = age
+
+        return super().create(validated_data)
 
 
 class RoomSerializer(serializers.ModelSerializer):
