@@ -1,38 +1,44 @@
-.App {
+.app-nav .MuiPaper-root {
+  background-color: white;
+}
+
+.app-main {
+  height: 100%;
+  background-color: #F6F6FA;
+  color: black;
+  font-family: 'Inter', sans-serif;
+}
+
+.app-auth>.MuiGrid-root {
+  height: 100%;
+}
+.auth-bg {
+  background-color: #F6F6FA;
+}
+
+.auth-bg img {
+  height: 75%;
+}
+
+.auth-subheading {
+  padding: 2rem 1rem;
   text-align: center;
+  font-weight: 500;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.auth-heading {
+  font-weight: 700;
+}
+.auth-form .form-control {
+  background-color: #E7EAF3 !important;
+  border-color: transparent !important;
+}
+.auth-form .form-label {
+  color: #949CAD;
+  font-size: 1.25rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.auth-form .form-check-input:checked,
+.auth-form .auth-submit {
+  background-color: #6C63FF !important;
 }
