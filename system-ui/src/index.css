@@ -4,9 +4,10 @@
 html,
 body,
 #root,
-#root .MuiBox-root {
+#root>.MuiBox-root {
   height: 100%;
 }
+
 body {
   margin-bottom: 0;
 }

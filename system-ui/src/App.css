@@ -1,7 +1,16 @@
 .app-nav .MuiPaper-root {
   background-color: white;
 }
+  
+.app-nav .nav-item .MuiTypography-root {
+  font-weight: 400;
+}
 
+.app-nav .nav-item {
+  text-decoration: none;
+  color: #949CAD;
+
+}
 .app-main {
   height: 100%;
   background-color: #F6F6FA;
@@ -12,6 +21,7 @@
 .app-auth>.MuiGrid-root {
   height: 100%;
 }
+
 .auth-bg {
   background-color: #F6F6FA;
 }
@@ -29,7 +39,7 @@
 .auth-heading {
   font-weight: 700;
 }
-.auth-form .form-control {
+.form-control {
   background-color: #E7EAF3 !important;
   border-color: transparent !important;
 }
@@ -41,4 +51,16 @@
 .auth-form .form-check-input:checked,
 .auth-form .auth-submit {
   background-color: #6C63FF !important;
+}
+.page-header {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.icon-wrapper {
+  cursor: pointer;
+  background-color: #E7EAF3;
+  color: black;
+  border-radius: 50%;
+  padding: 0.25rem;
 }
