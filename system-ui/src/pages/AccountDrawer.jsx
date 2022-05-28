@@ -9,7 +9,7 @@ import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 
-function EmptyDrawer() {
+function AccountDrawer() {
   const [showModal, setShowModal] = React.useState(false);
   
   const handleModalClose = () => setShowModal(false);
@@ -17,18 +17,29 @@ function EmptyDrawer() {
 
   const options = (
       <>
-        
+        <div>
+          <Button 
+            className="rounded-3" 
+            onClick={handleModalShow} 
+            variant="contained" 
+            startIcon={<AddIcon />}
+          > 
+            Add
+          </Button>
+        </div>
         <SearchComponent />
-        
+        <div className="icon-wrapper">
+            <NotificationsOutlinedIcon /> 
+        </div>
       </>
   );
 
   return (
-    <Drawer options={options} title='Empty'>
+    <Drawer options={options} title='Accounts'>
       <PatientModal show={showModal} onHide={handleModalClose}  />
       <Table></Table>
     </Drawer>
   )
 }
 
-export default EmptyDrawer
+export default AccountDrawer

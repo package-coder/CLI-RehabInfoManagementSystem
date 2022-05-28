@@ -47,13 +47,33 @@ function ResponsiveDrawer(props) {
                 </ListItemButton>
             </ListItem>
           </Link>
-          <Link to='/empty'  className="nav-item">
+          <Link to='/patient'  className="nav-item">
             <ListItem disablePadding >
                 <ListItemButton >
                   <ListItemIcon>
                     <DashboardOutlinedIcon/>
                   </ListItemIcon>
-                  <ListItemText primary="Empty" />
+                  <ListItemText primary="Patient" />
+                </ListItemButton>
+            </ListItem>
+          </Link>
+          <Link to='/room'  className="nav-item">
+            <ListItem disablePadding >
+                <ListItemButton >
+                  <ListItemIcon>
+                    <DashboardOutlinedIcon/>
+                  </ListItemIcon>
+                  <ListItemText primary="Room" />
+                </ListItemButton>
+            </ListItem>
+          </Link>
+          <Link to='/account'  className="nav-item">
+            <ListItem disablePadding >
+                <ListItemButton >
+                  <ListItemIcon>
+                    <DashboardOutlinedIcon/>
+                  </ListItemIcon>
+                  <ListItemText primary="Account" />
                 </ListItemButton>
             </ListItem>
           </Link>
@@ -125,7 +145,7 @@ function ResponsiveDrawer(props) {
         </Stack>
       </header>
     </Toolbar>
-      <section className="my-3 px-lg-5">
+      <section className="my-3 mb-5 px-lg-5">
         {props.children}
       </section>
       </Box>

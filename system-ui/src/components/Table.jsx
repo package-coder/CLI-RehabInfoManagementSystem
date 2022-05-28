@@ -73,7 +73,7 @@ export default function StickyHeadTable() {
   return (
     <div className='h-100 w-100'>
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-        <TableContainer sx={{ height: 450 }} >
+        <TableContainer sx={{ height: '100%' }} >
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
@@ -91,7 +91,7 @@ export default function StickyHeadTable() {
             </TableHead>
             <TableBody>
               {rows
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => {
                   return (
                     <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
@@ -111,7 +111,7 @@ export default function StickyHeadTable() {
             </TableBody>
           </Table>
         </TableContainer>
-        <TablePagination
+        {/* <TablePagination
           rowsPerPageOptions={[11, 25, 100]}
           component="div"
           count={rows.length}
@@ -119,7 +119,7 @@ export default function StickyHeadTable() {
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+        /> */}
       </Paper>
     </div>
   );
