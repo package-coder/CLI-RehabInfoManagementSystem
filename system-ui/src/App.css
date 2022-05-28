@@ -61,6 +61,18 @@
   cursor: pointer;
   background-color: #E7EAF3;
   color: black;
-  border-radius: 50%;
-  padding: 0.25rem;
+  border-radius: 8px;
+  padding: 0.35rem;
+  border: 1px transparent solid;
+}
+
+.icon-wrapper:hover{
+  border-color: lightgray;
+}
+
+.modal {
+  --bs-modal-zindex: 99999;
+}
+.modal-backdrop {
+  --bs-backdrop-zindex: 99998;
 }

@@ -4,20 +4,17 @@ import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
-import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
+
 import Stack from '@mui/material/Stack';
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
+
 
 
 
@@ -124,21 +121,11 @@ function ResponsiveDrawer(props) {
           {props.title}
         </h1>
         <Stack direction="row" spacing={2} alignItems="center">
-          <Form.Control type="text" placeholder="Search.." />
-          <div className="icon-wrapper">
-            <NotificationsOutlinedIcon />
-          </div>
+          {props.options}
         </Stack>
       </header>
     </Toolbar>
-    <Button variant="secondary" className="px-3 py-1">
-            Edit
-          </Button>
-          <Button variant="primary" className="px-3 py-1">
-            Add
-          </Button>
-      <section className="my-5 px-lg-5">
-      
+      <section className="my-3 px-lg-5">
         {props.children}
       </section>
       </Box>

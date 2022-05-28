@@ -1,28 +1,17 @@
-import logo from './logo.svg';
 import './App.css';
-import LoginPage from './pages/LoginPage';
-import Drawer from './components/Drawer';
-
-import Typography from '@mui/material/Typography';
-import Toolbar from '@mui/material/Toolbar'
-import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
-import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
-
-import Table from './components/Table';
-
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+import Drawer from './components/Drawer';
+import PatientDrawer from './pages/PatientDrawer';
+import EmptyDrawer from './pages/empty'
 
 function App() {
   return (
     <BrowserRouter>
-      
-
       <Routes>
-          <Route path="/" element={ <Drawer title='Dashboard'>
-              <Table></Table>
-            </Drawer>} />
+          <Route path="/" element={<PatientDrawer/>} />
             
-          <Route path="/empty" element={ <Drawer title="Empty" />} />
+          <Route path="/empty" element={ <EmptyDrawer/>} />
       </Routes>
     </BrowserRouter>
   );
