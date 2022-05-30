@@ -1,12 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 
+
+body, html, #root{
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 body,
 #root,
-#root>.MuiBox-root {
+#root>.MuiBox-root{
+  flex-grow: 1;
   height: 100%;
 }
+
 
 body {
   margin-bottom: 0;
 }
+

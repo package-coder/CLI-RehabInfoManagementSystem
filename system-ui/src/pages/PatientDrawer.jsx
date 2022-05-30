@@ -9,6 +9,49 @@ import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 
+const columns = [
+  { id: 'name', label: 'Name', minWidth: 170 },
+  { id: 'room', label: "Room Number", minWidth: 100, align: 'center' },
+  { id: 'illness', label: 'Illness', minWidth: 100 },
+  { id: 'age', label: 'Age', minWidth: 100, align: 'center', },
+  { id: 'dateAdmitted', label: 'Date Admitted', minWidth: 100 },
+  { id: 'isDischarged', label: 'Is Discharged', minWidth: 100, align: 'center', },
+  { id: 'update', label: '', minWidth: 50, align: 'center' },
+];
+
+function createData(room, firstName, lastName, illness, age, dateAdmitted, isDischarged) {
+  let name = `${lastName}, ${firstName}`;
+  
+  return {
+    room,
+    name,
+    illness,
+    age,
+    dateAdmitted,
+    isDischarged,
+    update: 'edit'
+  };
+}
+
+const rows = [
+  createData(10, 'Test name', 'test', 'illness', 56, 'dateadmitted', 'true'),
+  createData(10, 'Test name', 'test', 'illness', 56, 'dateadmitted', 'true'),
+  createData(10, 'Test name', 'test', 'illness', 56, 'dateadmitted', 'true'),
+  createData(10, 'Test name', 'test', 'illness', 56, 'dateadmitted', 'true'),
+  createData(10, 'Test name', 'test', 'illness', 56, 'dateadmitted', 'true'),
+  createData(10, 'Test name', 'test', 'illness', 56, 'dateadmitted', 'true'),
+  createData(10, 'Test name', 'test', 'illness', 56, 'dateadmitted', 'true'),
+  createData(10, 'Test name', 'test', 'illness', 56, 'dateadmitted', 'true'),
+  createData(10, 'Test name', 'test', 'illness', 56, 'dateadmitted', 'true'),
+  createData(10, 'Test name', 'test', 'illness', 56, 'dateadmitted', 'true'),
+  createData(10, 'Test name', 'test', 'illness', 56, 'dateadmitted', 'true'),
+  createData(10, 'Test name', 'test', 'illness', 56, 'dateadmitted', 'true'),
+  createData(10, 'Test name', 'test', 'illness', 56, 'dateadmitted', 'true'),
+  createData(10, 'Test name', 'test', 'illness', 56, 'dateadmitted', 'true'),
+  createData(10, 'Test name', 'test', 'illness', 56, 'dateadmitted', 'true'),
+];
+
+
 function PatientDrawer() {
   const [showModal, setShowModal] = React.useState(false);
   
@@ -37,7 +80,7 @@ function PatientDrawer() {
   return (
     <Drawer options={options} title='Patients'>
       <PatientModal show={showModal} onHide={handleModalClose}  />
-      <Table></Table>
+      <Table columns={columns} rows={rows} ></Table>
     </Drawer>
   )
 }

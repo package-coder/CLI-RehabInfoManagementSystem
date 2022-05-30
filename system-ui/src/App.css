@@ -11,8 +11,8 @@
   color: #949CAD;
 
 }
-.app-main {
-  height: 100%;
+
+#root{
   background-color: #F6F6FA;
   color: black;
   font-family: 'Inter', sans-serif;
