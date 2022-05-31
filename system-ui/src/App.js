@@ -5,12 +5,14 @@ import Drawer from './components/Drawer';
 import PatientDrawer from './pages/PatientDrawer';
 import RoomDrawer from './pages/RoomDrawer'
 import AccountDrawer from './pages/AccountDrawer'
+import DashboardDrawer from './pages/DashboardDrawer';
+
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-          <Route path="/" element={<PatientDrawer/>} />
+          <Route path="/" element={<DashboardDrawer/>} />
           <Route path="/patient" element={<PatientDrawer/>} />
           <Route path="/room" element={ <RoomDrawer/>} />
           <Route path="/account" element={ <AccountDrawer/>} />

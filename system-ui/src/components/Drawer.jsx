@@ -11,7 +11,11 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
+
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
+import PersonSearchOutlinedIcon from '@mui/icons-material/PersonSearchOutlined';
+import BedOutlinedIcon from '@mui/icons-material/BedOutlined';
+import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 
 import Stack from '@mui/material/Stack';
 
@@ -51,7 +55,7 @@ function ResponsiveDrawer(props) {
             <ListItem disablePadding >
                 <ListItemButton >
                   <ListItemIcon>
-                    <DashboardOutlinedIcon/>
+                    <PersonSearchOutlinedIcon/>
                   </ListItemIcon>
                   <ListItemText primary="Patient" />
                 </ListItemButton>
@@ -61,7 +65,7 @@ function ResponsiveDrawer(props) {
             <ListItem disablePadding >
                 <ListItemButton >
                   <ListItemIcon>
-                    <DashboardOutlinedIcon/>
+                    <BedOutlinedIcon/>
                   </ListItemIcon>
                   <ListItemText primary="Room" />
                 </ListItemButton>
@@ -71,7 +75,7 @@ function ResponsiveDrawer(props) {
             <ListItem disablePadding >
                 <ListItemButton >
                   <ListItemIcon>
-                    <DashboardOutlinedIcon/>
+                    <ManageAccountsOutlinedIcon/>
                   </ListItemIcon>
                   <ListItemText primary="Account" />
                 </ListItemButton>

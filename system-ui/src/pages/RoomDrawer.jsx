@@ -3,23 +3,36 @@ import React from 'react'
 import Table from '../components/Table';
 import Drawer from '../components/Drawer'
 import SearchComponent from '../components/SearchComponent';
-import PatientModal from '../components/modals/PatientModal';
+import RoomModal from '../components/modals/RoomModal';
 
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 
+import Stack from '@mui/material/Stack';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+
+function OptionComponent(){
+  return(
+    <Stack direction="row" spacing={1}>
+      <div className="icon-wrapper rounded-circle bg-primary bg-opacity-10"> <EditOutlinedIcon /> </div>
+      <div className="icon-wrapper rounded-circle bg-danger bg-opacity-10"> <DeleteOutlineOutlinedIcon /> </div>
+    </Stack>
+  );
+}
+
 const columns = [
-  { id: 'room', label: "Room Number", minWidth: 100, align: 'center' },
-  { id: 'floor', label: 'Floor', minWidth: 100,  align: 'center' },
+  { id: 'update', label: '', minWidth: 20,  align: 'center' },
+  { id: 'room', label: "Room Number", minWidth: 50 },
+  { id: 'floor', label: 'Floor', minWidth: 50,  align: 'center' },
   { id: 'description', label: 'Description', minWidth: 170,  align: 'center' },
-  { id: 'update', label: '', minWidth: 50,  align: 'center' },
 ];
 
 function createData(room, floor, description) {
   
   return {
-    room, floor, description, update: 'update'
+    room, floor, description, update: <OptionComponent />
   };
 }
 
@@ -68,10 +81,12 @@ function RoomDrawer() {
       </>
   );
 
+  
+
   return (
     <Drawer options={options} title='Rooms'>
-      <PatientModal show={showModal} onHide={handleModalClose}  />
-      <Table  columns={columns} rows={rows} ></Table>
+      <RoomModal show={showModal} modalTitle="Add New Room" onHide={handleModalClose}  />
+      <Table columns={columns} rows={rows} ></Table>
     </Drawer>
   )
 }

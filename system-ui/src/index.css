@@ -9,8 +9,7 @@ body, html, #root{
 }
 
 body,
-#root,
-#root>.MuiBox-root{
+#root {
   flex-grow: 1;
   height: 100%;
 }
