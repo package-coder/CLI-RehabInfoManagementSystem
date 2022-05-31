@@ -32,7 +32,8 @@
   font-family: 'Inter', sans-serif;
 }
 
-.app-auth>.MuiGrid-root {
+.app-auth,
+.app-auth > .MuiGrid-root {
   height: 100%;
 }
 

@@ -1,4 +1,5 @@
-const baseUrl = 'http://localhost:8000'
+//const baseUrl = 'http://localhost:8000'
+const baseUrl = 'https://e290-124-105-183-70.ngrok.io'
 const tokenKey = 'Authorization'
 
 

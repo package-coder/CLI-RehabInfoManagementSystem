@@ -6,18 +6,18 @@ import BgLogo from '../images/undraw_doctors_hwty.svg';
 function LoginPage() {
   return (
     <Box className="app-auth overflow-hidden" sx={{ flexGrow: 1 }}>
-      <div className="row h-100">
-        <div className="col auth-bg d-flex align-items-center justify-content-center">
+      <div className="d-flex h-100">
+        <div className="flex-shrink-1 flex-grow-1 auth-bg d-flex align-items-center justify-content-center">
           <img src={BgLogo} alt="Nurse and doctor" />
         </div>
-        <div className="col-3">
-          <div className='row h-100 align-items-center flex-column p-5' >
-            <header class="col-auto">
+        <div className="bg-white">
+          <div className='d-flex h-100 align-items-center flex-column p-5' >
+            <header class="flex-shrink-1">
               <Toolbar>
                 <h4 className="auth-subheading">Rehab Information <br/> Management System</h4>
               </Toolbar>
             </header>
-            <div class="col mt-5">
+            <div class="mt-5 flex-shrink-1 flex-grow-1">
               <section className='h-100 flex-column m-auto'>
                 <section>
                   <h1 className="auth-heading text-center">
@@ -39,14 +39,14 @@ function LoginPage() {
                       <label for="remember-me" class="form-check-label">Remember me</label>
                     </div>
                   </section>
-                  <section class="mt-5 d-grid">
+                  <section class="mt-5  d-grid">
                     <button type="button" class="btn btn-primary auth-submit">Login</button>
                   </section>
                 </section>
               </section>
               
             </div>
-            <footer class="col-auto">
+            <footer class="flex-shrink-1">
               <Toolbar>
                 <a href="#" class="link-primary">Forget Password?</a>
               </Toolbar>
