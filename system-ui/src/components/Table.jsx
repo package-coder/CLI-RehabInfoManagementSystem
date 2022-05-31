@@ -29,9 +29,7 @@ export default function CustomTable({ columns, rows  }) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
-                // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => {
+              {rows?.map((row) => {
                   return (
                     <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                       {columns.map((column) => {

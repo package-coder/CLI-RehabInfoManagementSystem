@@ -18,6 +18,15 @@ class UserSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+    def create(self, validated_data):
+        user = super().create(validated_data)
+        user.is_superuser = True
+        user.is_staff = True
+        user.is_active = True
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
+
 
 class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -34,15 +43,11 @@ class PatientSerializer(serializers.ModelSerializer):
         model = Patient
         fields = '__all__'
 
-
     def create(self, validated_data):
-        print(validated_data)
-
         today = date.today()
         birthdate = validated_data.get('birthdate', today)
         age = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
         validated_data['age'] = age
-
         return super().create(validated_data)
 
 

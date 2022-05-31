@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { fetchTemplate } from '../auth';
+
 import Table from '../components/Table';
 import Drawer from '../components/Drawer'
 import SearchComponent from '../components/SearchComponent';
@@ -28,38 +30,53 @@ const columns = [
   { id: 'id', label: 'Employee ID', minWidth: 50},
   { id: 'name', label: 'Name', minWidth: 170 },
   { id: 'address', label: "Address", minWidth: 170 },
-  { id: 'username', label: 'Username', minWidth: 100, align: 'center' },
-  { id: 'password', label: 'Password', minWidth: 100, align: 'center' },
+  { id: 'username', label: 'Username', minWidth: 170,  },
+  { id: 'email', label: 'Email', minWidth: 170,  },
 ];
 
-function createData(id, firstName, lastName, username, password, address) {
+function createData({ id, firstName, lastName, username, email, address }) {
   let name = `${lastName}, ${firstName}`;
   
   return {
     id,
     name,
     username,
-    password,
+    email,
     address,
     update: <OptionComponent />
   };
 }
 
-const rows = [
-  createData(10, 'John', 'Smith', 'username','password', 'address'),
-  createData(10, 'John', 'Smith', 'username','password', 'address'),
-  createData(10, 'John', 'Smith', 'username','password', 'address'),
-  createData(10, 'John', 'Smith', 'username','password', 'address'),
-  createData(10, 'John', 'Smith', 'username','password', 'address'),
-  createData(10, 'John', 'Smith', 'username','password', 'address'),
-  createData(10, 'John', 'Smith', 'username','password', 'address'),
-];
-
 function AccountDrawer() {
   const [showModal, setShowModal] = React.useState(false);
+  const [data, setData] = React.useState([]);
   
   const handleModalClose = () => setShowModal(false);
   const handleModalShow = () => setShowModal(true);
+
+  React.useEffect(() => {
+    async function fetchData(){
+      const employees = await fetchTemplate('GET', '/api/v1/employees/', null, true);
+      
+      const newData = employees?.map(async (item) => {
+        const user = await fetchTemplate('GET', `/api/v1/manage/users/${item.sysId}`, null, true);
+
+        return { 
+          ...item, 
+          username: user.username,
+          password: user.password,
+          email: user.email
+        }
+      })
+      
+      Promise.all(newData).then(data => {
+        setData(data)
+      })
+    }
+
+    fetchData()
+  }, []);
+
 
   const options = (
       <>
@@ -79,11 +96,17 @@ function AccountDrawer() {
         </div>
       </>
   );
+  
 
   return (
     <Drawer options={options} title='Accounts'>
-      <AccountModal show={showModal} onHide={handleModalClose} modalTitle="Add New Account"  />
-      <Table columns={columns} rows={rows} ></Table>
+      <AccountModal show={showModal} onHide={handleModalClose} modaltitle="Add New Account"  />
+      <Table 
+        columns={columns} 
+        rows={
+          data?.map(item => createData(item))
+        } 
+      />
     </Drawer>
   )
 }

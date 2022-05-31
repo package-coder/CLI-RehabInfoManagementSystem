@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { fetchTemplate } from '../auth';
 import Table from '../components/Table';
 import Drawer from '../components/Drawer'
 import SearchComponent from '../components/SearchComponent';
@@ -24,43 +25,38 @@ function OptionComponent(){
 
 const columns = [
   { id: 'update', label: '', minWidth: 20,  align: 'center' },
-  { id: 'room', label: "Room Number", minWidth: 50 },
+  { id: 'id', label: "Room Number", minWidth: 50 },
+  { id: 'name', label: 'Name', minWidth: 100 },
   { id: 'floor', label: 'Floor', minWidth: 50,  align: 'center' },
   { id: 'description', label: 'Description', minWidth: 170,  align: 'center' },
 ];
 
-function createData(room, floor, description) {
+function createData({ id, floor, description, name }) {
   
   return {
-    room, floor, description, update: <OptionComponent />
+    id, name, floor, description, update: <OptionComponent />
   };
 }
 
-const rows = [
-  createData(10, 2, 'Emergency Room'),
-  createData(10, 2, 'Emergency Room'),
-  createData(10, 2, 'Emergency Room'),
-  createData(10, 2, 'Emergency Room'),
-  createData(10, 2, 'Emergency Room'),
-  createData(10, 2, 'Emergency Room'),
-  createData(10, 2, 'Emergency Room'),
-  createData(10, 2, 'Emergency Room'),
-  createData(10, 2, 'Emergency Room'),
-  createData(10, 2, 'Emergency Room'),
-  createData(10, 2, 'Emergency Room'),
-  createData(10, 2, 'Emergency Room'),
-  createData(10, 2, 'Emergency Room'),
-  createData(10, 2, 'Emergency Room'),
-  createData(10, 2, 'Emergency Room'),
-
-];
 
 
 function RoomDrawer() {
   const [showModal, setShowModal] = React.useState(false);
+  const [data, setData] = React.useState();
+
   
   const handleModalClose = () => setShowModal(false);
   const handleModalShow = () => setShowModal(true);
+
+
+  React.useEffect(() => {
+    async function fetchData(){
+      const data = await fetchTemplate('GET', '/api/v1/rooms/', null, true);
+      setData(data)
+    }
+
+    fetchData()
+  }, []);
 
   const options = (
       <>
@@ -85,8 +81,16 @@ function RoomDrawer() {
 
   return (
     <Drawer options={options} title='Rooms'>
-      <RoomModal show={showModal} modalTitle="Add New Room" onHide={handleModalClose}  />
-      <Table columns={columns} rows={rows} ></Table>
+      <RoomModal show={showModal} modaltitle="Add New Room" onHide={handleModalClose}  />
+      <Table 
+        columns={columns} 
+        rows={
+          data?.map(item => createData(item))
+        } 
+
+
+      />
+
     </Drawer>
   )
 }

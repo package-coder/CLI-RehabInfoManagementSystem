@@ -25,6 +25,22 @@ from knox.views import LoginView as KnoxLoginView
 class LoginView(KnoxLoginView):
     permission_classes = (permissions.AllowAny,)
 
+    def get_user_serializer_class(self):
+        return UserSerializer
+
+    def get_post_response_data(self, request, token, instance):
+        data = super().get_post_response_data(request, token, instance)
+        id = data['user']['id']
+
+        try:
+            entry = Employee.objects.get(sysId=id)
+            data['employee'] = EmployeeSerializer(entry).data
+
+        except Employee.DoesNotExist:
+            pass
+
+        return data
+
     def post(self, request, format=None):
         serializer = AuthTokenSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -67,6 +83,8 @@ class PatientDetail(generics.RetrieveUpdateDestroyAPIView):
 class RoomList(generics.ListCreateAPIView):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
+
+
 
 
 class RoomDetail(generics.RetrieveUpdateDestroyAPIView):

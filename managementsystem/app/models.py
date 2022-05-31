@@ -15,7 +15,7 @@ class Employee(models.Model):
 
 class Room(models.Model):
     name = models.CharField(max_length=50, blank=False, null=False)
-    description = models.TextField()
+    description = models.TextField(blank=True, null=True)
     floor = models.IntegerField()
 
 
@@ -24,7 +24,7 @@ class Patient(models.Model):
     firstName = models.CharField(max_length=50, blank=False, null=False)
     lastName = models.CharField(max_length=50, blank=False, null=False)
     description = models.TextField(null=True, blank=True)
-    age = models.IntegerField()
+    age = models.IntegerField(default=0)
     birthday = models.DateField()
     illness = models.CharField(max_length=100)
     dateAdmitted = models.DateField(null=False)
