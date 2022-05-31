@@ -1,4 +1,7 @@
 import * as React from 'react';
+import { useNavigate } from "react-router-dom";
+
+
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -20,7 +23,7 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 
 import Stack from '@mui/material/Stack';
-
+import { logout } from '../auth'
 
 
 
@@ -31,11 +34,18 @@ const drawerWidth = 250;
 
 function ResponsiveDrawer(props) {
   const { window } = props;
+  const location = useNavigate();
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
+
+  async function handleLogout(e){
+    await logout();
+    location("/login", { replace: true })
+  }
 
   const drawer = (
     <div className='d-flex flex-column h-100'>
@@ -48,7 +58,6 @@ function ResponsiveDrawer(props) {
           </div>
           <div className="col">
             <h6 className='fw-bolder m-0'>James Bond</h6>
-            <section className="text-muted">admin</section>
           </div>
         </div>
       </Toolbar>
@@ -106,7 +115,7 @@ function ResponsiveDrawer(props) {
       </List>
       <div className='flex-grow-1 p-4 d-flex align-items-end justify-content-center'>
         <div className="d-grid w-100 mb-3">
-          <button type="button" class="btn btn-primary bg-primary auth-submit">Logout</button>
+          <button type="button" class="btn btn-primary bg-primary auth-submit" onClick={handleLogout}>Logout</button>
         </div>
       </div>
     </div>

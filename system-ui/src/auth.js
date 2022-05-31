@@ -1,6 +1,6 @@
 //const baseUrl = 'http://localhost:8000'
-const baseUrl = 'https://e290-124-105-183-70.ngrok.io'
-const tokenKey = 'Authorization'
+const BASE_URL = 'https://e290-124-105-183-70.ngrok.io'
+const AUTH_KEY = 'Authorization'
 
 
 export function isAuthenticated(){
@@ -27,8 +27,9 @@ export async function login(username, password){
 
 export async function logout(){
 
-    return await fetchTemplate('GET', '/api/auth/logout/');
-
+    const res = await fetchTemplate('GET', '/api/v1/auth/logout/', null, true);
+    if(res.ok)
+        tokenDelete()
 }
 
 export async function fetchTemplate(method, url, form, withAuthorization){
@@ -49,7 +50,7 @@ export async function fetchTemplate(method, url, form, withAuthorization){
             }
         }
 
-        const res = await fetch(`${baseUrl}${url}`, parameters)
+        const res = await fetch(`${BASE_URL}${url}`, parameters)
 
         if(!res.ok)
             throw res.statusText
@@ -65,9 +66,14 @@ export async function fetchTemplate(method, url, form, withAuthorization){
 
 
 function tokenWrite(value){
-    localStorage.setItem(tokenKey, value);
+    localStorage.setItem(AUTH_KEY, value);
 }
 
 function tokenPeek(){
-    return localStorage.getItem(tokenKey);
+    return localStorage.getItem(AUTH_KEY);
+}
+
+function tokenDelete(){
+    localStorage.removeItem(AUTH_KEY);
+    localStorage.clear()
 }

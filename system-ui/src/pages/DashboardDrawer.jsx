@@ -6,7 +6,7 @@ import { Navigate } from 'react-router-dom';
 
  function DashboardDrawer() {
 
-  console.log(login('admin1', 'admin1'))
+  login('admin1', 'admin1')
 
     if(!isAuthenticated()){
       return <Navigate to="/login" />
