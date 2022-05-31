@@ -7,13 +7,20 @@ export function isAuthenticated(){
     return tokenPeek()
 }
 
+
+export async function getAuth(){
+    
+}
+
 export async function login(username, password){
 
     const form = new FormData();
     form.append('username', username);
-    form.append('password',password);
+    form.append('password', password);
+
 
     const data = await fetchTemplate('POST', '/api/v1/auth/login/', form, false);
+    localStorage.setItem('Authentication ID', data?.employee?.id)
     tokenWrite(data.token)
     return data;
 }

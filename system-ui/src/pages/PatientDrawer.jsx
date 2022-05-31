@@ -14,7 +14,7 @@ import ConfirmationModal from '../components/modals/ConfirmationModal';
 
 import Stack from '@mui/material/Stack';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 function OptionComponent(){
   return(
@@ -34,7 +34,7 @@ const columns = [
   { id: 'isDischarged', label: 'Is Discharged', minWidth: 100, align: 'center', },
 ];
 
-function createData(room, firstName, lastName, illness, age, dateAdmitted, isDischarged) {
+function createData({ room, firstName, lastName, illness, age, dateAdmitted, dateDischarge }) {
   let name = `${lastName}, ${firstName}`;
 
   
@@ -44,28 +44,11 @@ function createData(room, firstName, lastName, illness, age, dateAdmitted, isDis
     illness,
     age,
     dateAdmitted,
-    isDischarged,
+    isDischarged: dateDischarge && ( <CheckCircleIcon className="text-primary"/>),
     update: <OptionComponent />
   };
 }
 
-const rows = [
-  createData(10, 'Test name', 'test', 'illness', 56, 'dateadmitted', 'true'),
-  createData(10, 'Test name', 'test', 'illness', 56, 'dateadmitted', 'true'),
-  createData(10, 'Test name', 'test', 'illness', 56, 'dateadmitted', 'true'),
-  createData(10, 'Test name', 'test', 'illness', 56, 'dateadmitted', 'true'),
-  createData(10, 'Test name', 'test', 'illness', 56, 'dateadmitted', 'true'),
-  createData(10, 'Test name', 'test', 'illness', 56, 'dateadmitted', 'true'),
-  createData(10, 'Test name', 'test', 'illness', 56, 'dateadmitted', 'true'),
-  createData(10, 'Test name', 'test', 'illness', 56, 'dateadmitted', 'true'),
-  createData(10, 'Test name', 'test', 'illness', 56, 'dateadmitted', 'true'),
-  createData(10, 'Test name', 'test', 'illness', 56, 'dateadmitted', 'true'),
-  createData(10, 'Test name', 'test', 'illness', 56, 'dateadmitted', 'true'),
-  createData(10, 'Test name', 'test', 'illness', 56, 'dateadmitted', 'true'),
-  createData(10, 'Test name', 'test', 'illness', 56, 'dateadmitted', 'true'),
-  createData(10, 'Test name', 'test', 'illness', 56, 'dateadmitted', 'true'),
-  createData(10, 'Test name', 'test', 'illness', 56, 'dateadmitted', 'true'),
-];
 
 
 function PatientDrawer() {
@@ -77,10 +60,14 @@ function PatientDrawer() {
   const handleModalClose = () => setShowModal(false);
   const handleModalShow = () => setShowModal(true);
 
-  // React.useEffect(async () => {
-  //   const data = await fetchTemplate('GET', 'api/v1/patients', null, true);
+  React.useEffect(() => {
+    async function fetchData(){
+      const data = await fetchTemplate('GET', '/api/v1/patients/', null, true);
+      setData(data)
+    }
 
-  // }, []);
+    fetchData()
+  }, []);
 
   const options = (
       <>
@@ -101,14 +88,16 @@ function PatientDrawer() {
       </>
   );
 
-  async function handleModalSubmit(form){
-    await fetchTemplate('POST', '/api/v1/patients/', form, true);
-  }
 
   return (
     <Drawer options={options} title='Patients'>
-      <PatientModal show={showModal} modaltitle="Add New Patient" onHide={handleModalClose}  onSubmit={handleModalSubmit}/>
-      <Table columns={columns} rows={rows} ></Table>
+      <PatientModal show={showModal} modaltitle="Add New Patient" onHide={handleModalClose} />
+      <Table 
+        columns={columns} 
+        rows={
+          data?.map(item => createData(item))
+        } 
+        />
     </Drawer>
   )
 }

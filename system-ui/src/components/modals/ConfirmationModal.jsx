@@ -3,7 +3,8 @@ import React from 'react';
 import { Modal, Button } from 'react-bootstrap'
 
 
-export default function ConfirmationModal( { title } ) {
+
+export default function ConfirmationModal( { title, handleSuccess } ) {
     const [show, setShow] = React.useState(true);
   
     const handleClose = () => setShow(false);

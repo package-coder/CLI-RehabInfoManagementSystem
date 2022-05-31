@@ -2,8 +2,15 @@ import React from 'react'
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import BgLogo from '../images/undraw_doctors_hwty.svg';
+import { isAuthenticated, login } from '../auth';
+import { Navigate } from 'react-router-dom';
 
 function LoginPage() {
+
+  if(isAuthenticated()){
+    return <Navigate to="/" />
+  }
+
   return (
     <Box className="app-auth overflow-hidden" sx={{ flexGrow: 1 }}>
       <div className="d-flex h-100">
