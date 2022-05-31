@@ -8,8 +8,22 @@
 
 .app-nav .nav-item {
   text-decoration: none;
-  color: #949CAD;
+  color: var(--bs-secondary);
 
+}
+
+.app-nav .nav-item .MuiListItemButton-root{
+  border-right: 5px solid transparent;
+}
+
+.app-nav .nav-item *{
+  color: inherit;
+}
+.app-nav .active .MuiListItemButton-root{
+  --bs-bg-opacity: 0.05;
+  background-color: rgba(var(--bs-primary-rgb),var(--bs-bg-opacity))!important;
+  color: var(--bs-primary);
+  border-right-color: var(--bs-primary);
 }
 
 #root{
@@ -50,7 +64,7 @@
 
 .auth-form .form-check-input:checked,
 .auth-form .auth-submit {
-  background-color: #6C63FF !important;
+  background-color: var(--bs-primary) !important;
 }
 .page-header {
   font-size: 2rem;

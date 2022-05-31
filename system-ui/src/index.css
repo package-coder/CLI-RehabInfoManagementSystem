@@ -19,3 +19,10 @@ body {
   margin-bottom: 0;
 }
 
+:root{
+  --bs-primary: #6C63FF;
+  --bs-primary-rgb: 108, 99, 255;
+  --bs-secondary: #949cad;
+  --bs-secondary-rgb: 148, 156, 173;
+  
+}
