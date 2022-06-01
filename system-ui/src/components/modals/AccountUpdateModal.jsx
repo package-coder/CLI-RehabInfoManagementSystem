@@ -3,31 +3,40 @@ import React from 'react'
 import { Modal, Button, Form } from 'react-bootstrap'
 import { fetchTemplate } from '../../auth';
 
-function AccountModal(props) {
+function AccountUpdateModal(props) {
 
     const formRef = React.useRef();
     const usernameRef = React.useRef();
     const emailRef = React.useRef();
     const passwordRef = React.useRef();
 
+    const [data, setData] = React.useState();
 
-    async function handleSubmit(){
-        formRef.current.classList.add('was-validated')
 
-        if(!formRef.current.checkValidity()) return;
+    React.useEffect(() => {
+        async function fetchData(){
+          const user = await fetchTemplate('GET', `/api/v1/manage/users/${props.id}`, null, true);
+          setData(user)
+        }
+    
+        fetchData()
+    }, []);
+
+
+    async function handleUpdate(){
+        if(!formRef.current.reportValidity()) return;
+
 
         const form = new FormData()
         form.append('username', usernameRef.current.value)
         form.append('email', emailRef.current.value)
-        form.append('password', passwordRef.current.value)
 
-        fetchTemplate('POST', '/api/v1/users/', form, true)
-        .then(() => {
+        if(passwordRef.current.value)
+            form.append('password', passwordRef.current.value)
+
+        fetchTemplate('PATCH', `/api/v1/manage/users/${props.id}`, form, true)
+        .finally(() => {
             props.onHide()
-        })
-        .catch((e) => {
-            usernameRef.current.value =  '';
-            usernameRef.current.classList.add('is-invalid')
         })
     }
 
@@ -35,28 +44,26 @@ function AccountModal(props) {
     <>
         <Modal {...props} >
             <Modal.Header closeButton>
-            <Modal.Title>{props.modaltitle}</Modal.Title>
+            <Modal.Title>Update Account</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-            <Form ref={formRef} noValidate >
+            <Form ref={formRef}>
                 <Form.Group className="mb-3" >
                     <Form.Label>ID</Form.Label>
-                    <Form.Control id='id' type="text" placeholder="<Value Generated>" readOnly/>
+                    <Form.Control id='id' type="text"  defaultValue={data?.id} readOnly/>
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Username</Form.Label>
-                    <Form.Control id='username' type="text" ref={usernameRef} required/>
-                    <Form.Control.Feedback type="invalid">
-                        Username already chosen. Try another username
-                    </Form.Control.Feedback>
+                    <Form.Control id='username' type="text" defaultValue={data?.username} ref={usernameRef} autoFocus  required/>
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Email</Form.Label>
-                    <Form.Control id='email' type="email" ref={emailRef} required/>
+                    <Form.Control id='email' type="email" defaultValue={data?.email} ref={emailRef} required/>
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Password</Form.Label>
-                    <Form.Control id='password' type="password" ref={passwordRef} required/>
+                    <Form.Control id='password' type="password" ref={passwordRef} />
+                    <Form.Label className="text-muted">{' <Leave unchanged if you wish to not change the password>'}</Form.Label>
                 </Form.Group>
             </Form>
             </Modal.Body>
@@ -65,8 +72,8 @@ function AccountModal(props) {
                 Close
             </Button>
            
-            <Button variant="primary" onClick={handleSubmit}>
-                Add
+            <Button variant="primary" onClick={handleUpdate}>
+                Save Changes
             </Button>
             </Modal.Footer>
         </Modal>
@@ -74,4 +81,4 @@ function AccountModal(props) {
   )
 }
 
-export default AccountModal
+export default AccountUpdateModal

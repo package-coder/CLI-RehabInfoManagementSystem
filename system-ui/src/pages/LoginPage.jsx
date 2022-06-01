@@ -3,21 +3,48 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import BgLogo from '../images/undraw_doctors_hwty.svg';
 import { isAuthenticated, login } from '../auth';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 function LoginPage() {
+
+  const navigate = useNavigate();
+  const formRef = React.useRef()
+  const usernameRef = React.useRef()
+  const passwordRef = React.useRef()
+  const invalidRef = React.useRef()
+
 
   if(isAuthenticated()){
     return <Navigate to="/" />
   }
 
+  function handleSubmit(e){
+    formRef.current.classList.add('was-validated')
+
+    if(!formRef.current.checkValidity()) return;
+
+    const username = usernameRef.current.value;
+    const password = passwordRef.current.value;
+    
+    login(username, password)
+    .then(() => {
+      navigate('/', {replace:true});
+    })
+    .catch(e => {
+      usernameRef.current.value = ''
+      passwordRef.current.value = ''
+      usernameRef.current.classList.add('is-invalid')
+      passwordRef.current.classList.add('is-invalid')
+    })
+  }
+
   return (
-    <Box className="app-auth overflow-hidden" sx={{ flexGrow: 1 }}>
+    <Box className="app-auth overflow-hidden" >
       <div className="d-flex h-100">
         <div className="flex-shrink-1 flex-grow-1 auth-bg d-flex align-items-center justify-content-center">
           <img src={BgLogo} alt="Nurse and doctor" />
         </div>
-        <div className="bg-white">
+        <div className="flex-shrink-1 bg-white">
           <div className='d-flex h-100 align-items-center flex-column p-5' >
             <header class="flex-shrink-1">
               <Toolbar>
@@ -32,22 +59,22 @@ function LoginPage() {
                   </h1>
                 </section>
                 <section class="mt-5 mx-2 auth-form">
-                  <section class="d-flex flex-column gap-3 pt-3">
+                  <form class="form d-flex flex-column gap-3 pt-3" ref={formRef} noValidate>
                     <div>
                       <label for="username" class="form-label">Username</label>
-                      <input type="text" id="username" class="form-control"/>
+                      <input type="text" id="username" ref={usernameRef} class="form-control" required/>
                     </div>
                     <div>
                       <label for="password" class="form-label">Password</label>
-                      <input type="password" id="password" class="form-control"/>
+                      <input type="password" id="password" ref={passwordRef} class="form-control" required/>
+                      <div class="invalid-feedback text-center" ref={invalidRef}>
+                        Invalid Credetials
+                      </div>
                     </div>
-                    <div class="form-check">
-                      <input type="checkbox" value='' id="remember-me" class="form-check-input"/>
-                      <label for="remember-me" class="form-check-label">Remember me</label>
-                    </div>
-                  </section>
+
+                  </form>
                   <section class="mt-5  d-grid">
-                    <button type="button" class="btn btn-primary auth-submit">Login</button>
+                    <button type="button" class="btn btn-primary auth-submit" onClick={handleSubmit}>Login</button>
                   </section>
                 </section>
               </section>

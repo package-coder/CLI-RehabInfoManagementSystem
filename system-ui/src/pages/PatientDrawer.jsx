@@ -3,59 +3,94 @@ import { fetchTemplate } from '../auth';
 
 import Table from '../components/Table';
 import Drawer from '../components/Drawer'
-import SearchComponent from '../components/SearchComponent';
 import PatientModal from '../components/modals/PatientModal';
 
+import PatientUpdateModal from '../components/modals/PatientUpdateModal';
 
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
-import ConfirmationModal from '../components/modals/ConfirmationModal';
 
 import Stack from '@mui/material/Stack';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import FilterListIcon from '@mui/icons-material/FilterList';
 
-function OptionComponent(){
+import Form from 'react-bootstrap/Form'
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import ConfirmationModal from '../components/modals/ConfirmationModal';
+
+
+
+
+function OptionComponent({ id }){
+  const [optionModal, setOptionModal] = React.useState(false);
+  const handleOptionModalCLose = () => setOptionModal(false);
+  const handleOptionModalShow = () => setOptionModal(true);
+
+  const [confirmationModal, setConfirmationModal] = React.useState(false);
+  const handleConfirmationModalClose = () => setConfirmationModal(false);
+  const handleConfirmationModalShow = () => setConfirmationModal(true);
+
+  async function handleDelete(){
+    await fetchTemplate('DELETE', `/api/v1/manage/patients/${id}`, null, true, true);
+  }
+
   return(
+    <>
+    <PatientUpdateModal show={optionModal} id={id} onHide={handleOptionModalCLose}  />
+    <ConfirmationModal show={confirmationModal} onHide={handleConfirmationModalClose} title="Delete" handlesucess={handleDelete} />
     <Stack direction="row" spacing={1}>
-      <div className="icon-wrapper rounded-circle bg-primary bg-opacity-10"> <EditOutlinedIcon /> </div>
+      <div className="icon-wrapper rounded-circle bg-primary bg-opacity-10" onClick={handleOptionModalShow}> <EditOutlinedIcon /> </div>
+      <div className="icon-wrapper rounded-circle bg-danger bg-opacity-10" onClick={handleConfirmationModalShow} > <DeleteOutlineOutlinedIcon /> </div>
     </Stack>
+    </>
   );
 }
 
 const columns = [
   { id: 'update', label: '', minWidth: 20, align: 'center' },
+  { id: 'id', label: "ID", minWidth: 100, align: 'center' },
   { id: 'name', label: 'Name', minWidth: 170 },
-  { id: 'room', label: "Room Number", minWidth: 100, align: 'center' },
-  { id: 'illness', label: 'Illness', minWidth: 100 },
-  { id: 'age', label: 'Age', minWidth: 100, align: 'center', },
-  { id: 'dateAdmitted', label: 'Date Admitted', minWidth: 100 },
+  { id: 'birthdate', label: 'Birthdate', minWidth: 100, align: 'center' },
+  { id: 'contact', label: 'Contact #', minWidth: 100, align: 'center' },
+  { id: 'gender', label: 'Gender', minWidth: 100, align: 'center' },
+  { id: 'address', label: 'Address', minWidth: 170 },
+  { id: 'illness', label: 'Illness', minWidth: 170 },
+  { id: 'dateAdmitted', label: 'Date Admitted', minWidth: 100, align: 'center' },
   { id: 'isDischarged', label: 'Is Discharged', minWidth: 100, align: 'center', },
 ];
 
-function createData({ room, firstName, lastName, illness, age, dateAdmitted, dateDischarge }) {
+function createData({ id, firstName, lastName, illness, gender, contact, address, birthdate, dateAdmitted, dateDischarged, description }) {
   let name = `${lastName}, ${firstName}`;
 
   
   return {
-    room,
+    id,
     name,
-    illness,
-    age,
+    illness, 
+    gender, 
+    contact, 
+    address, 
+    birthdate, 
     dateAdmitted,
-    isDischarged: dateDischarge && ( <CheckCircleIcon className="text-primary"/>),
-    update: <OptionComponent />
+    description,
+    isDischarged: dateDischarged && ( <CheckCircleIcon className="text-primary"/>),
+    update: <OptionComponent id={id}/>
   };
 }
 
 
 
 function PatientDrawer() {
+
+  const searchRef = React.useRef();
   
   
   const [showModal, setShowModal] = React.useState(false);
   const [data, setData] = React.useState();
+  const [dynamicSearch, setDynamicSearch] = React.useState();
+
   
   const handleModalClose = () => setShowModal(false);
   const handleModalShow = () => setShowModal(true);
@@ -69,6 +104,20 @@ function PatientDrawer() {
     fetchData()
   }, []);
 
+
+  function handleOnSearch(e){
+    const query = searchRef.current.value;
+
+    const filtered = data?.filter((item) => {
+      return item.firstName.toLowerCase().startsWith(query.toLowerCase()) || 
+        item.lastName.toLowerCase().startsWith(query.toLowerCase()) || 
+        item.id.toString().startsWith(query) ||
+        item.illness.toLowerCase().startsWith(query.toLowerCase())
+    })
+
+    setDynamicSearch(filtered);
+  }
+
   const options = (
       <>
         <div>
@@ -81,9 +130,9 @@ function PatientDrawer() {
             Add
           </Button>
         </div>
-        <SearchComponent />
+        <Form.Control type="text" placeholder="Search name/id/illness..." ref={searchRef} onChange={handleOnSearch} />
         <div className="icon-wrapper">
-            <NotificationsOutlinedIcon /> 
+          <FilterListIcon />
         </div>
       </>
   );
@@ -95,7 +144,7 @@ function PatientDrawer() {
       <Table 
         columns={columns} 
         rows={
-          data?.map(item => createData(item))
+          (dynamicSearch ? dynamicSearch : data)?.map(item => createData(item))
         } 
         />
     </Drawer>

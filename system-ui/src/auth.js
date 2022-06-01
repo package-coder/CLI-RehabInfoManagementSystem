@@ -1,5 +1,4 @@
-//const baseUrl = 'http://localhost:8000'
-const BASE_URL = 'https://e290-124-105-183-70.ngrok.io'
+const BASE_URL = 'http://localhost:8000'
 const AUTH_KEY = 'Authorization'
 
 
@@ -9,7 +8,14 @@ export function isAuthenticated(){
 
 
 export async function getAuth(){
-    
+    const authId = localStorage.getItem('AUTH_ID')
+
+    if(!authId) return ;
+    return await fetchTemplate('GET', `/api/v1/manage/users/${authId}`, null, true);
+}
+
+export function getAuthId(){
+    return localStorage.getItem('AUTH_ID')
 }
 
 export async function login(username, password){
@@ -18,21 +24,20 @@ export async function login(username, password){
     form.append('username', username);
     form.append('password', password);
 
-
     const data = await fetchTemplate('POST', '/api/v1/auth/login/', form, false);
-    localStorage.setItem('Authentication ID', data?.employee?.id)
+    localStorage.setItem('AUTH_ID', data.user.id)
+
     tokenWrite(data.token)
     return data;
 }
 
 export async function logout(){
 
-    const res = await fetchTemplate('GET', '/api/v1/auth/logout/', null, true);
-    if(res.ok)
-        tokenDelete()
+    const res = await fetchTemplate('POST', '/api/v1/auth/logout/', null, true, true);
+   tokenDelete()
 }
 
-export async function fetchTemplate(method, url, form, withAuthorization){
+export async function fetchTemplate(method, url, form, withAuthorization, withoutData){
     try{
 
         let parameters = {
@@ -55,9 +60,12 @@ export async function fetchTemplate(method, url, form, withAuthorization){
         if(!res.ok)
             throw res.statusText
 
-        console.log(res)
-        const data = await res.json();
 
+        if(withoutData)
+            return Promise.resolve()
+
+
+        const data = await res.json();
         return Promise.resolve(data)
     } catch(e){
         return Promise.reject(new Error(e))

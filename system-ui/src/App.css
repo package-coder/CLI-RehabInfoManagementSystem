@@ -1,5 +1,6 @@
 .app-nav .MuiPaper-root {
   background-color: white;
+  height: 100vh;
 }
   
 .app-nav .nav-item .MuiTypography-root {
@@ -32,7 +33,9 @@
   font-family: 'Inter', sans-serif;
 }
 
-.app-auth,
+.app-auth {
+  height: 100vh;
+}
 .app-auth > .MuiGrid-root {
   height: 100%;
 }
@@ -90,4 +93,8 @@
 }
 .modal-backdrop {
   --bs-backdrop-zindex: 99998;
+}
+.disable_section {
+  pointer-events: none;
+  opacity: 0.4;
 }

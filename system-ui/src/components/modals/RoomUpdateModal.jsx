@@ -3,15 +3,27 @@ import React from 'react'
 import { Modal, Button, Form } from 'react-bootstrap'
 import { fetchTemplate } from '../../auth';
 
-function RoomModal(props) {
+function RoomUpdateModal(props) {
 
     const formRef = React.useRef();
-    const nameRef = React.useRef("name");
-    const floorRef = React.useRef(2);
-    const descRef = React.useRef("desc");
+    const nameRef = React.useRef();
+    const floorRef = React.useRef();
+    const descRef = React.useRef();
+
+    const [data, setData] = React.useState();
 
 
-    async function handleSubmit(){
+    React.useEffect(() => {
+        async function fetchData(){
+          const data = await fetchTemplate('GET', `/api/v1/manage/rooms/${props.id}`, null, true);
+          setData(data)
+        }
+    
+        fetchData()
+    }, []);
+
+      
+    function handleUpdate(){
         if(!formRef.current.reportValidity()) return;
 
         const data = new FormData();
@@ -19,33 +31,35 @@ function RoomModal(props) {
         data.append('description', descRef.current.value);
         data.append('name', nameRef.current.value);
 
-        const res = await fetchTemplate('POST', '/api/v1/rooms/', data, true);
-        props.onHide()
+        
+        fetchTemplate('PUT', `/api/v1/manage/rooms/${props.id}`, data, true).then(res => {
+            props.onHide()
+        })
     }
 
   return (  
     <>
         <Modal {...props}>
             <Modal.Header closeButton>
-            <Modal.Title>{props.modaltitle}</Modal.Title>
+            <Modal.Title>Update Room</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form ref={formRef}>
                     <Form.Group className="mb-3">
                         <Form.Label>Room Number</Form.Label>
-                        <Form.Control id='roomNumber' placeholder="<Value Generated>" readOnly/>
+                        <Form.Control id='roomNumber' defaultValue={data?.id}  readOnly/>
                     </Form.Group>
                     <Form.Group className="mb-3">
                         <Form.Label>Name</Form.Label>
-                        <Form.Control id='name' ref={nameRef}  type="text" autoFocus required/>
+                        <Form.Control id='name' ref={nameRef} defaultValue={data?.name} type="text" autoFocus required/>
                     </Form.Group>
                     <Form.Group className="mb-3">
                         <Form.Label>Floor</Form.Label>
-                        <Form.Control id='floor' ref={floorRef}  type="number" required/>
+                        <Form.Control id='floor' ref={floorRef} defaultValue={data?.floor} type="number" required/>
                     </Form.Group>
                     <Form.Group className="mb-3">
                         <Form.Label>Description</Form.Label>
-                        <Form.Control id='description' ref={descRef}   type="text"/>
+                        <Form.Control id='description' ref={descRef} defaultValue={data?.description}   type="text"/>
                     </Form.Group>
                 </Form>
             </Modal.Body>
@@ -54,8 +68,8 @@ function RoomModal(props) {
                 Close
             </Button>
            
-            <Button variant="primary" onClick={handleSubmit}>
-                Add
+            <Button variant="primary" onClick={handleUpdate}>
+                Save Changes
             </Button>
             </Modal.Footer>
         </Modal>
@@ -63,4 +77,4 @@ function RoomModal(props) {
   )
 }
 
-export default RoomModal
+export default RoomUpdateModal

@@ -23,7 +23,7 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 
 import Stack from '@mui/material/Stack';
-import { logout } from '../auth'
+import { logout, getAuth } from '../auth'
 
 
 
@@ -36,6 +36,7 @@ function ResponsiveDrawer(props) {
   const { window } = props;
   const location = useNavigate();
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [auth, setAuth] = React.useState();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -47,6 +48,26 @@ function ResponsiveDrawer(props) {
     location("/login", { replace: true })
   }
 
+
+
+  
+  React.useEffect(() => {
+    async function fetchData(){
+      const auth = await getAuth();
+      setAuth(auth);
+    }
+
+    fetchData()
+  }, []);
+
+
+  function formatName(username){
+    if(!username) return
+    username = (username.substring(0, 1)).toUpperCase() + (username.substring(1)).toLowerCase()
+    return username
+  }
+
+
   const drawer = (
     <div className='d-flex flex-column h-100'>
       <Toolbar className="mt-5">
@@ -57,12 +78,12 @@ function ResponsiveDrawer(props) {
             </div>
           </div>
           <div className="col">
-            <h6 className='fw-bolder m-0'>James Bond</h6>
+            <h5 className='fw-bolder m-0'>{formatName(auth?.username)}</h5>
           </div>
         </div>
       </Toolbar>
       <List className='mt-5'>
-          <NavLink to='/'  className="nav-item" activeClassName="selected">
+          {/* <NavLink to='/'  className="nav-item" activeClassName="selected">
             <ListItem disablePadding >
                 <ListItemButton >
                   <ListItemIcon>
@@ -71,8 +92,8 @@ function ResponsiveDrawer(props) {
                   <ListItemText primary="Dashboard" />
                 </ListItemButton>
             </ListItem>
-          </NavLink>
-          <NavLink to='/patient'  className="nav-item" activeClassName="selected">
+          </NavLink> */}
+          <NavLink to='/'  className="nav-item" activeClassName="selected">
             <ListItem disablePadding >
                 <ListItemButton >
                   <ListItemIcon>
@@ -82,7 +103,7 @@ function ResponsiveDrawer(props) {
                 </ListItemButton>
             </ListItem>
           </NavLink>
-          <NavLink to='/room'  className="nav-item" activeClassName="selected">
+          {/* <NavLink to='/room'  className="nav-item" activeClassName="selected">
             <ListItem disablePadding >
                 <ListItemButton >
                   <ListItemIcon>
@@ -91,7 +112,7 @@ function ResponsiveDrawer(props) {
                   <ListItemText primary="Room" />
                 </ListItemButton>
             </ListItem>
-          </NavLink>
+          </NavLink> */}
           <NavLink to='/account'  className="nav-item" activeClassName="selected">
             <ListItem disablePadding >
                 <ListItemButton >
@@ -102,7 +123,7 @@ function ResponsiveDrawer(props) {
                 </ListItemButton>
             </ListItem>
           </NavLink>
-          <NavLink to='/setting'  className="nav-item" activeClassName="selected">
+          {/* <NavLink to='/setting'  className="nav-item" activeClassName="selected">
             <ListItem disablePadding >
                 <ListItemButton >
                   <ListItemIcon>
@@ -111,7 +132,7 @@ function ResponsiveDrawer(props) {
                   <ListItemText primary="Setting" />
                 </ListItemButton>
             </ListItem>
-          </NavLink>
+          </NavLink> */}
       </List>
       <div className='flex-grow-1 p-4 d-flex align-items-end justify-content-center'>
         <div className="d-grid w-100 mb-3">
